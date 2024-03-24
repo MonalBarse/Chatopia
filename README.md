@@ -1,6 +1,6 @@
 # Chatopia
 
-## Chatopia - real-time text chat platform, constructed using the MERN stack.
+## - A real-time text chat platform
 
 ## Overview
 
@@ -11,14 +11,14 @@ Welcome to Chatopia – a project designed for me to learn the MERN stack (Mongo
 
 ## Features
 
-- **Account Creation:** Users can create accounts to personalize their chat experience.
+- **Account Creation:** Users can create accounts to personalize their chat experience. 
 - **Chat Rooms:** Join different chat rooms for diverse conversations.
-- **Real-time Messaging:** Utilizes websockets for instant communication.
+- **Real-time Messaging:** Utilizes web sockets for instant communication.
 - **Data Storage:** MongoDB is employed for efficient and scalable data storage.
 
 ## Tech Stack
 
-- **Frontend:** Built with React.js for a dynamic and responsive user interface.
+- **Frontend:** Built with React.js for a dynamic and responsive user interface. And utilizing React's Context API for state management.
 - **Backend:** Developed using Node.js and Express.js to handle server-side logic.
 - **Database:** MongoDB serves as the database for storing user accounts and chat data.
 - **Websockets:** Enables real-time communication for a seamless chatting experience.
