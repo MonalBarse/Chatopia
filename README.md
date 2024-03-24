@@ -1,8 +1,10 @@
-# Chat App - AIM: Learn MERN Stack
+# Chatopia
+
+## Chatopia - real-time text chat platform, constructed using the MERN stack.
 
 ## Overview
 
-Welcome to the Chat App – a project designed for me to learn the MERN stack (MongoDB, Express.js, React.js, Node.js). This application serves as a practical learning experience, allowing me to delve into the world of real-time chat applications while mastering the core technologies of the MERN stack.
+Welcome to Chatopia – a project designed for me to learn the MERN stack (MongoDB, Express.js, React.js, Node.js). This application serves as a practical learning experience, allowing me to delve into the world of real-time chat applications while mastering the core technologies of the MERN stack.
       
       
 - Also, if you want to follow how I approached building this from scratch, you can check out [Learnings](./Learnings.md) file. I tend to update this every time I make any progress.
