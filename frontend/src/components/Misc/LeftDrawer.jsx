@@ -228,7 +228,6 @@ const LeftDrawer = React.memo(
                   </Box>
                 )
               )}
-              {loadingChat && <Spinner ml="auto" display="flex" />}
             </DrawerBody>
 
             <DrawerFooter>

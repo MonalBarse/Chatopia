@@ -15,7 +15,7 @@ function Chatpage() {
       {user && <SideDrawer />}
       <Box
         display="flex"
-        padding="30px"
+        padding="9px"
         justifyContent="space-between"
         w="100%"
         h="91vh"

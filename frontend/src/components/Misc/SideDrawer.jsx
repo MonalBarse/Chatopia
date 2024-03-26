@@ -53,7 +53,9 @@ const SideDrawer = React.memo(() => {
   //   setIsFocused((prevState) => !prevState  );
   // };
   return (
-    <div style={{ backgroundColor: "rgba(0, 2, 26, 0.9)" }}>
+    <div style={{
+      margin: "9px 9px 0 9px"
+      , backgroundColor: "rgba(0, 2, 26, 0.9)" }}>
       <Box
         display="flex"
         justifyContent="space-between"

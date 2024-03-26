@@ -12,3 +12,19 @@
 }
 
 /* Image by Mateus Andre on Freepik: https://www.freepik.com/free-photo/artistic-blurry-colorful-wallpaper-background_61216631.htm#query=dark%20gradient&position=45&from_view=keyword&track=ais&uuid=f076c9c0-5748-41c2-ba00-07e2cade4cd3 */
+
+::-webkit-scrollbar {
+  width: 3px;
+  
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
