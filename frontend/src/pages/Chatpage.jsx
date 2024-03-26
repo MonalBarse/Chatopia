@@ -4,8 +4,8 @@ import MyChats from "../components/ChatPage/MyChats";
 import ChatBox from "../components/ChatPage/ChatBox";
 import SideDrawer from "../components/Misc/SideDrawer";
 import { useLoaderData } from "react-router-dom";
-import { ChatState } from "../context/ChatProvider";
 
+import { ChatState } from "../context/ChatProvider";
 import { Box } from "@chakra-ui/react";
 function Chatpage() {
   const { user } = ChatState();

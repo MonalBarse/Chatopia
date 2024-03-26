@@ -65,7 +65,9 @@ const authUser = asyncHandler(async (req, res) => {
 });
 
 // /api/user?search=   
-const allUsers = asyncHandler(async (req, res) => {
+
+
+/* const allUsers = asyncHandler(async (req, res) => {
     const search = req.query.search ? {
         $or: [
             { name: { $regex: req.query.search, $options: 'i' } },
@@ -78,9 +80,32 @@ const allUsers = asyncHandler(async (req, res) => {
                 _id: { $ne: req.user._id }
             }
         )
-    res.send(users);
-});
+    // Send back a JSON response with the users
+    res.json(users);
+}); */
+const allUsers = asyncHandler(async (req, res) => {
+    const { search } = req.query;
+    const query = {};
 
+    // If there's a search query, add it to the query object
+    if (search) {
+        query.$or = [
+            { name: { $regex: search, $options: 'i' } },
+        ];
+    }
+
+    // Exclude the logged-in user from the search results
+    query._id = { $ne: req.user._id };
+
+    // Fetch users based on the constructed query
+    const users = await User.find(query);
+
+    // Send back a JSON response with the users
+    console.log(users);
+    console.log(typeof(users));
+
+    res.json(users);
+});
 module.exports = { registerUser, authUser, allUsers };
 
 /* 
@@ -92,7 +117,7 @@ const asyncHandler = require('express-async-handler')
 
 express.get('/', asyncHandler(async (req, res, next) => {
     const bar = await foo.findAll();
-    res.send(bar)
+    res.send(bar) // res.send sends a response in the form of a JSON object
 })); 
 
 --> Without express-async-handler

@@ -4,6 +4,8 @@ const User = require("../models/userModel");
 
 
 // This route will be responsible for creating or accesing one on one chat
+
+// http://localhost:3000/api/chat
 const accessChat = expressAsyncHandler(async (req, res) => {
 
     const { userID } = req.body; // Current user who is logged in will send us the userID of the user with whom he wants to chat
@@ -39,7 +41,7 @@ const accessChat = expressAsyncHandler(async (req, res) => {
             select: "name email"
         }); // Populating the sender of the latest message
         if (isChat) { // If chat exists, return the chat
-            res.send(isChat[0]);
+            res.status(200).send(isChat);
         } else { // If chat does not exist, create a new chat
             let chatData = {
                 chatName: chatName,

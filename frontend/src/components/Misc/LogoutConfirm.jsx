@@ -11,16 +11,31 @@ import {
   Text,
 } from "@chakra-ui/react";
 import svgImage from "../../circle-user-solid.svg";
+import { useDisclosure } from "@chakra-ui/react";
 import profileBack from "../../profileBack.png";
 import { Flex, Image, useColorModeValue } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
-const LogoutConfirmationModal = ({ isOpen, onClose, user, logoutHandler }) => {
+const LogoutConfirmationModal = React.memo(({  user, children }) => {
   // ============================= //
+  const navigate = useNavigate();
   let boxBg = useColorModeValue("#000000E6 !important", "#111c44 !important");
   let mainText = useColorModeValue("white", "white");
   let secondaryText = useColorModeValue("gray.400", "gray.400");
   // ============================= //
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const logoutHandler = () => {
+    localStorage.removeItem("userInfo");
+    navigate("/");
+  };
+
   return (
+    <div>
+       {children ? (
+        <span onClick={onOpen}>{children}</span>
+      ) : (
+        <Button onClick={onOpen}>{user.name}</Button>
+      )}
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent
@@ -89,7 +104,8 @@ const LogoutConfirmationModal = ({ isOpen, onClose, user, logoutHandler }) => {
         </ModalFooter>
       </ModalContent>
     </Modal>
+    </div>
   );
-};
+});
 
 export default LogoutConfirmationModal;

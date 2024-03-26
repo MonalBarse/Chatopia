@@ -16,7 +16,7 @@ import {
 
 import { Flex, Image, useColorModeValue } from "@chakra-ui/react";
 
-const ProfileModal = ({ user, children }) => {
+const ProfileModal = React.memo(({ user, children }) => {
   // ============================= //
   let boxBg = useColorModeValue("transparent !important", "#111c44 !important");
   let mainText = useColorModeValue("white", "white");
@@ -25,8 +25,7 @@ const ProfileModal = ({ user, children }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <>
-    {console.log(user)}
+    <div>
       {children ? (
         <span onClick={onOpen}>{children}</span>
       ) : (
@@ -148,8 +147,8 @@ const ProfileModal = ({ user, children }) => {
    
         </ModalContent>
       </Modal>
-    </>
+    </div>
   );
-};
+});
 
 export default ProfileModal;

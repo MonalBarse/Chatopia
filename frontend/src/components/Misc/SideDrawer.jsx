@@ -8,23 +8,24 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   MenuItem,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  flexbox,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-
+import LeftDrawer from "./LeftDrawer";
 import ProfileModal from "./ProfileModal";
 import { ChatState } from "../../context/ChatProvider";
 import { useNavigate } from "react-router-dom";
 import LogoutConfirmationModal from "./LogoutConfirm";
 
-const SideDrawer = () => {
+const SideDrawer = React.memo(() => {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -32,15 +33,27 @@ const SideDrawer = () => {
 
   const { user } = ChatState();
 
-  const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
-    navigate("/");
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const handleDrawerOpen = () => {
+    setDrawerOpen((prevState) => !prevState);
   };
+
+  // State and functions for Drawer component
+  // const {
+  //   isOpen: isDrawerOpen,
+  //   onOpen: onDrawerOpen,
+  //   onClose: onDrawerClose,
+  // } = useDisclosure();
+  // const [isFocused, setIsFocused] = useState(false);
+  // const handleFocus = () => {
+  //   setIsFocused(prevState => !prevState);
+  // };
+  // const handleBlur = () => {
+  //   setIsFocused((prevState) => !prevState  );
+  // };
   return (
-    <>
+    <div style={{ backgroundColor: "rgba(0, 2, 26, 0.9)" }}>
       <Box
         display="flex"
         justifyContent="space-between"
@@ -52,6 +65,7 @@ const SideDrawer = () => {
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           <Button
+            onClick={handleDrawerOpen}
             colorScheme="blue"
             variant="outline "
             _hover={{ bg: "rgba(0, 0, 255, 0.09)" }}
@@ -138,28 +152,92 @@ const SideDrawer = () => {
                   My Porfile
                 </MenuItem>
               </ProfileModal>
-              <MenuItem
-                onClick={onOpen}
-                bg="rgba(0, 4, 4, 0.6)"
-                _hover={{
-                  bg: "rgba(50, 3, 255, 0.15)",
-                  transition: "background-color 0.2s ease-in-out",
-                }}
-                transition="background-color 0.8s ease-in-out"
-              >
-                Logout
-              </MenuItem>
-              <LogoutConfirmationModal
-                isOpen={isOpen}
-                onClose={onClose}
-                user={user}
-                logoutHandler={logoutHandler}
-              />
+              <LogoutConfirmationModal user={user}>
+                <MenuItem
+                  bg="rgba(0, 4, 4, 0.6)"
+                  _hover={{
+                    bg: "rgba(50, 3, 255, 0.15)",
+                    transition: "background-color 0.2s ease-in-out",
+                  }}
+                  transition="background-color 0.8s ease-in-out"
+                >
+                  Logout
+                </MenuItem>
+              </LogoutConfirmationModal>
             </MenuList>
           </Menu>
         </div>
       </Box>
-    </>
+      <LeftDrawer 
+        search = {search}
+        setSearch={setSearch}
+        drawerOpen={drawerOpen}
+        loading={loading}
+        setLoading={setLoading}
+        searchResults={searchResults}
+        setSearchResults={setSearchResults}
+        loadingChat={loadingChat}
+        setLoadingChat={setLoadingChat}
+      ></LeftDrawer>
+     {/*  <Drawer placement="left" onClose={onDrawerClose} isOpen={isDrawerOpen}>
+        <DrawerOverlay />
+        <DrawerContent bg="rgba(0, 2, 26, 0.9)" border="1px solid #ccc">
+          <DrawerHeader color="white" mt={2}>
+            Search Users
+          </DrawerHeader>
+          <DrawerBody>
+            <Box display="flex">
+              <input
+                style={{
+                  backgroundColor: isFocused? "rgba(0, 0, 255, 0.09)":"rgba(0, 2, 26, 0.9)" ,
+                  padding: "7px",
+                  borderRadius: "5px",
+                  width: "100%",
+                  border: "1px solid #ccc",
+                  transition: "all 0.3s ease",
+                  color: "rgb(133, 133, 133)",
+                  caretColor: "white"
+                }}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                type="text"
+                placeholder="Search "
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="search-input"
+              />
+              <Button
+                ml={2}
+                colorScheme="outline"
+                color={loading ? "gray" : "white"}
+                _hover={{ bg: "rgba(0, 0, 255, 0.09)" }}
+                variant="outline"
+
+                onClick={() => {
+                  setLoading(true);
+                  setSearchResults([]);
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                viewBox="0 0 512 512">
+                  <path
+                    fill="#ffffff"
+                    d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z"
+                  />
+                </svg>
+              </Button>
+            </Box>
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Button variant="outline" mr={3} onClick={onDrawerClose}>
+              Close
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer> */}
+    </div>
   );
-};
+});
 export default SideDrawer;
