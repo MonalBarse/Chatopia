@@ -5,7 +5,8 @@ import { useToast, Text, Box, Menu, Button, Stack } from "@chakra-ui/react";
 import { ChatState } from "../../context/ChatProvider";
 import ChatLoading from "../Misc/ChatLoading";
 import getSender from "../../config/ChatLogics";
-const MyChats = () => {
+import GroupChatModal from "../Misc/GroupChatModal";
+const MyChats = ({fetchAgain}) => {
   const toast = useToast();
 
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
@@ -42,22 +43,24 @@ const MyChats = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
   return (
     <Box
       display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
-      w={{ base: "100%", md: "31%" }}
+      w={{ base: "100%", md: "35%" }}
       h="100%"
       bg="rgba(0, 1, 27, 0.7)"
       color="white"
       p={3}
+      mr={2}
       borderRadius="sm"
       border="1px solid #666777"
       flexDirection="column"
       alignItems="center"
     >
       <Box
-        pb={3}
+        pb={4}
+        pt={2}
         px={3}
         fontSize={{ base: "xl", md: "2xl" }}
         fontFamily={"Work sans"}
@@ -66,8 +69,12 @@ const MyChats = () => {
         w={{ base: "100%", md: "100%" }}
         justifyContent="space-between"
         alignItems="center"
+        
+        borderBottom={"1px solid #666777"}
       >
         My Chats
+
+        <GroupChatModal>
         <Button
           display="flex"
           bg="rgba(0, 0, 180, 0.09)"
@@ -93,6 +100,7 @@ const MyChats = () => {
         >
           New Group Chat
         </Button>
+        </GroupChatModal>
       </Box>
       <Box
         w={{ base: "100%", md: "100%" }}
@@ -129,7 +137,7 @@ const MyChats = () => {
               >
                 <Text>
                   {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users).name // Assuming getSender returns a user object
+                    ? getSender(loggedUser, chat.users) // Assuming getSender returns a user object
                     : chat.chatName}
                 </Text>
               </Box>

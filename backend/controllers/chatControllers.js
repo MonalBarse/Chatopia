@@ -120,7 +120,7 @@ const createGroupChat = expressAsyncHandler(async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
-
+// /api/chat/rename
 const renameGroup = expressAsyncHandler(async (req, res) => {
     const { chatID, newName } = req.body;
     if (!chatID || !newName) {
@@ -145,7 +145,7 @@ const renameGroup = expressAsyncHandler(async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
-
+// /api/chat/groupadd
 const addToGroup = expressAsyncHandler(async (req, res) => {
     const { chatID, userID } = req.body;
     if (!chatID || !userID) {
