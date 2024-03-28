@@ -5,6 +5,7 @@ const connectDB =       require('./config/db');                 // Database Conn
 const dotenv =          require('dotenv');                      // For environment variables
 const userRoutes =      require('./routes/userRoutes'); 
 const chatRoutes =      require('./routes/chatRoutes');
+const messageRoutes =   require('./routes/messageRoutes');
 const { notFound, errorHandler } = require('./middleware/errorHandeling');// Middlewars
 app.use(cors());                                
 app.use(express.json());                        // This is a built-in middleware function in Express. It parses incoming requests with JSON payloads and is based on body-parser i.e converts the incoming data to JSON
@@ -16,6 +17,7 @@ const colors = require('colors');
 // For the application we will be using all the routes starting from /api
 app.use('/api/user', userRoutes);               // This is the route for the user
 app.use('/api/chat', chatRoutes);               // This is the route for the chat
+app.use('/api/message', messageRoutes);         // This is the route for the group chat
 
 app.use(notFound);     // this is a middleware that will be called if no route is found
 
