@@ -66,7 +66,7 @@ const GroupChatModal = ({ children }) => {
             name: groupChatName,
             users: JSON.stringify(selectedUsers.map((user) => user._id))
         }, config);
-        console.log(data);
+        // console.log(data);
         setChats([data, ...chats]);
         onClose();
         toast({
@@ -134,13 +134,15 @@ const GroupChatModal = ({ children }) => {
         setLoading(false);
       } catch (error) {
         console.log(error);
-        toast = {
+        toast({
           title: "Error",
           description: "An error occurred while searching for users",
           status: "error",
           duration: 3000,
           isClosable: true,
-        };
+          position: "top",
+        });
+
         setLoading(false);
         setSearchAttempted(true);
       }

@@ -25,7 +25,7 @@ import UserBadgeItem from "../UserRelated/UserBadgeItem";
 import { set } from "mongoose";
 import UserListItem from "../UserRelated/UserListItem";
 
-const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
+const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain , fetchMessages}) => {
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupName, setGroupName] = useState("");
@@ -205,6 +205,8 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
     }
   };
   const handleRemoveUser = async (toRemoveUser) => {
+    console.log(toRemoveUser._id);
+    console.log(user._id);
     if (
       selectedChat.groupAdmin._id !== user._id &&
       toRemoveUser._id !== user._id
@@ -236,22 +238,36 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
         },
         config
       );
-      toRemoveUser._id === user._id
-        ? setSelectedChat(null)
-        : setSelectedChat(data);
-      setFetchAgain((prev) => !prev);
-      setLoading(false);
-      toast({
-        title: "Success",
-        description:
-          user._id === toRemoveUser._id
-            ? "You left the group"
-            : "User removed from group",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        position: "top",
-      });
+
+      if (toRemoveUser._id === user._id) {
+        // If the current user is removing themselves from the group
+        setSelectedChat(null);
+        setFetchAgain((prev) => !prev);
+        setLoading(false);
+        fetchMessages();
+        toast({
+          title: "Success",
+          description: "You left the group",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+      } else {
+        // If another user is being removed from the group
+        setSelectedChat(data);
+        setFetchAgain((prev) => !prev);
+        setLoading(false);
+        fetchMessages();
+        toast({
+          title: "Success",
+          description: "User removed from group",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+      }
     } catch (error) {
       console.error(error);
       toast({
@@ -264,6 +280,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
       });
     }
   };
+
 
   return (
     <>
