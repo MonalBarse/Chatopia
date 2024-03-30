@@ -45,50 +45,55 @@ const GroupChatModal = ({ children }) => {
       return;
     }
     if (selectedUsers.length < 2) {
-        toast({
-            title: "Add Users",
-            description: "Must add at least two user to create a group chat",
-            status: "warning",
-            duration: 3000,
-            isClosable: true,
-            position: "top",
-        });
-        return;
+      toast({
+        title: "Add Users",
+        description: "Must add at least two user to create a group chat",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
     }
+    // Send a request to create a group chat
     try {
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user.token}`,
-            }
-        }
-        const { data } = await axios.post("http://localhost:3000/api/chat/group", {
-            name: groupChatName,
-            users: JSON.stringify(selectedUsers.map((user) => user._id))
-        }, config);
-        // console.log(data);
-        setChats([data, ...chats]);
-        onClose();
-        toast({
-            title: "Group Chat Created",
-            description: "Group chat created successfully",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-            position: "top",
-        });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        "http://localhost:3000/api/chat/group",
+        {
+          name: groupChatName,
+          users: JSON.stringify(selectedUsers.map((user) => user._id)),
+        },
+        config
+      );
+      // console.log(data);
+      setChats([data, ...chats]);
+      onClose();
+      toast({
+        title: "Group Chat Created",
+        description: "Group chat created successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     } catch (error) {
-        console.log(error);
-        toast({
-            title: "Error",
-            description: "An error occurred while creating group chat",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-            position: "top",
-        });
+      console.log(error);
+      toast({
+        title: "Error",
+        description: "An error occurred while creating group chat",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     }
-   
+    // console.log(groupChatName, selectedUsers);
   };
 
   // delete user from selected users
@@ -147,8 +152,10 @@ const GroupChatModal = ({ children }) => {
         setSearchAttempted(true);
       }
     } else {
-return;    }
+      return;
+    }
   };
+  
   return (
     <>
       <span onClick={onOpen}>{children}</span>

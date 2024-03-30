@@ -1,18 +1,24 @@
 import React, { useEffect, useState, useRef } from "react";
-import ScrollableFeed from "react-scrollable-feed";
 import { ChatState } from "../../context/ChatProvider";
+import { Tooltip, Avatar } from "@chakra-ui/react";
 import {
   isSameSender,
   isLastMessage,
   isSameSenderMargin,
   isSameUser,
 } from "../../config/ChatLogics";
-import svgImage from "../../circle-user-solid.svg";
-import { Tooltip, Image, Avatar } from "@chakra-ui/react";
 
 const ScrollableChat = ({ messages }) => {
-  const { user, selectedChat, setSelectedChat } = ChatState();
+  const { user } = ChatState();
+
+  //--------Scroll to the bottom ---------//
   const chatBottomRef = useRef(null);
+  const scrollToBottom = () => {
+    if (chatBottomRef.current) {
+      chatBottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  // -------------- xxxxxx--------------- //
 
   //----Color for the user profile icon ---- //
   const [color, setColor] = useState("");
@@ -20,11 +26,6 @@ const ScrollableChat = ({ messages }) => {
     setColor(`${generateRandomColor()}`);
     scrollToBottom();
   }, [messages]);
-  const scrollToBottom = () => {
-    if (chatBottomRef.current) {
-      chatBottomRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   const generateRandomColor = () => {
     let r = Math.floor(Math.random() * 256);
@@ -103,11 +104,11 @@ const ScrollableChat = ({ messages }) => {
                   boxShadow: `${
                     message.sender._id === user._id
                       ? "none"
-                      : (!isSameUser(messages, message, index)
-                        ? "-1px -2px 1px rgba(57, 56, 96, 0.3)"
-                        : "none")
+                      : !isSameUser(messages, message, index)
+                      ? "-1px -2px 1px rgba(57, 56, 96, 0.3)"
+                      : "none"
                   }`,
-                 /*  borderRight: `${
+                  /*  borderRight: `${
                     message.sender._id === user._id
                       ? "none"
                       : (!isSameUser(messages, message, index)

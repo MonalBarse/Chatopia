@@ -75,21 +75,33 @@ io.on('connection', (socket) => {
         socket.join(groupID);
         console.log(`Socket ${socket.id} joined chat ${groupID}`);
     });
-    
-    socket.on('typing', (room)=>socket.in(room).emit('typing'));
-    socket.on('stop typing', (room)=>socket.in(room).emit('stop typing'));
 
-    socket.on('new message',  (newMessageRecieved) => {
+    socket.on('typing', (room) => socket.in(room).emit('typing'));
+    socket.on('stop typing', (room) => socket.in(room).emit('stop typing'));
+
+    socket.on('new message', async (newMessageRecieved) => {
         let chat = newMessageRecieved.chat;
-        if(!chat){
+        if (!chat) {
             console.log('Chat not found');
             return;
         }
-        if(!chat.users) return console.log('chat.users not defined');
+        if (!chat.users) return console.log('chat.users not defined');
 
         chat.users.forEach(user => {
-            if(user._id === newMessageRecieved.sender._id) return;
-            socket.in(user._id).emit('message recieved', newMessageRecieved);
-        });
+            if (user._id === newMessageRecieved.sender._id) return;
+            socket.in(user._id).emit('message recieved', newMessageRecieved); 
+        }); // Emit the message to all users in the chat except the sender
+        try {
+            // Update the latestMessage property of the chat with the ID of the new message
+            await Chat.findByIdAndUpdate(chat._id, { latestMessage: newMessageRecieved._id });
+        } catch (error) {
+            console.error('Error updating latest message:', error);
+        }
+    });
+    socket.off('setup', () => {
+        console.log('Socket disconnected');
+        socket.leave(
+            userData._id
+        );
     });
 });

@@ -9,10 +9,8 @@ import ProfileModal from "../Misc/ProfileModal";
 import { FormControl, Input, Spinner, Image, useToast } from "@chakra-ui/react";
 import inputSVG from "../../media/inputSVG.svg";
 import ScrollableChat from "./ScrollableChat";
-import io from "socket.io-client";
-
-const ENDPOINT = "http://localhost:3000";
-let socket, selectedChatCompare;
+import {socket} from "../../socket/Websocket";
+let selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const toast = useToast();
@@ -24,9 +22,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   //------------------Socket.io------------------//
   useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", user);
-    socket.on("connected", () => {
+    socket.emit("setup", user); // Emit the user data to the server
+    socket.on("connection", () => {
       setSocketConnected((prev) => !prev);
     });
   }, []);
