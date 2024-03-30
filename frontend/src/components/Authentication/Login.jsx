@@ -60,7 +60,7 @@ function Login() {
         position: "bottom",
       });
       console.log(data);
-      
+
       localStorage.setItem("userInfo", JSON.stringify(data)); // The data (email, name, token) is stored in the local storage
       setLoading(false);
       navigate("/chat");
@@ -79,11 +79,15 @@ function Login() {
     }
   };
   return (
-    <VStack spacing="5px">
+    <VStack backdropFilter="blur(4px)" borderRadius="3%" spacing="5px">
       <FormControl isRequired>
         <FormLabel>Email</FormLabel>
         <Input
-          style={{ border: "1px solid #ccc", borderRadius: "5px" }}
+          autoComplete="off"
+          style={{
+            border: "1px solid rgba(102, 103, 119, 0.5)",
+            borderRadius: "5px",
+          }}
           type="email"
           placeholder="Enter Your Email"
           onChange={(e) => setEmail(e.target.value)}
@@ -93,14 +97,20 @@ function Login() {
         <FormLabel>Password</FormLabel>
         <InputGroup>
           <Input
-            style={{ border: "1px solid #ccc", borderRadius: "5px" }}
+            autoComplete="off"
+            style={{
+              border: "1px solid rgba(102, 103, 119, 0.5)",
+              borderRadius: "5px",
+            }}
             type={show ? "text" : "password"}
             placeholder="Enter Your Password"
             onChange={(e) => setPassword(e.target.value)}
           ></Input>
           <InputRightElement width="4.5rem">
             <Button
-              bg="rgba(204, 206, 220, 0.7)"
+              bg="transparent"
+              _hover={{ bg: "rgba(0, 4, 4, 0.5)" }}
+              color={"#666777"}
               h="1.75rem"
               size="sm"
               onClick={handleClick}
@@ -112,8 +122,13 @@ function Login() {
       </FormControl>
 
       <Button
-        colorScheme="blue"
+        variant={"outline"}
         width={"100%"}
+        color={"white"}
+        bg={"rgba(16, 8, 111, 0.7)"}
+        _hover={{ bg: "rgba(0, 0, 255, 0.09)" }}
+        border={"1px solid #666777"}
+        mt={4}
         style={{ marginTop: 10 }}
         isDisabled={isSiginpDisabled}
         onClick={submitHandler}
