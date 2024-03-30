@@ -61,8 +61,7 @@ Welcome to Chatopia – a project designed for me to learn the MERN stack (Mongo
 4. **Open the Application:**
    Open [http://localhost:5713](http://localhost:5713) to view it in the browser.
 
-## Create an account
-
+## Note: 
 - Register for an account by providing a username and password. Once registered, you can log in to access the chat rooms.
 - This is a begginer project, so you can chat with any person in the database by just entering their username in the chat room. Please do not use or share any sensitive information.
 - You can also create a new chat room by entering the name of the chat room in the chat room input field.
