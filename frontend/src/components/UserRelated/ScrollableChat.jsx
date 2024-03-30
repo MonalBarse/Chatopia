@@ -84,7 +84,7 @@ const ScrollableChat = ({ messages }) => {
                   ></Avatar>
                 </Tooltip>
               )}
-
+              {/* "rgba(0, 1,44,0.9)" */}
               <span
                 style={{
                   backgroundColor: `${
@@ -92,7 +92,7 @@ const ScrollableChat = ({ messages }) => {
                       ? "rgba(0, 2, 76, 0.9)"
                       : "rgba(0, 1,44,0.9)"
                   }`,
-                   color: "#dee5ff",
+                  color: "#dee5ff",
                   marginLeft: isSameSenderMargin(
                     messages,
                     message,
@@ -100,6 +100,20 @@ const ScrollableChat = ({ messages }) => {
                     user._id
                   ),
                   marginTop: isSameUser(messages, message, index) ? 3 : 10,
+                  boxShadow: `${
+                    message.sender._id === user._id
+                      ? "none"
+                      : (!isSameUser(messages, message, index)
+                        ? "-1px -2px 1px rgba(57, 56, 96, 0.3)"
+                        : "none")
+                  }`,
+                 /*  borderRight: `${
+                    message.sender._id === user._id
+                      ? "none"
+                      : (!isSameUser(messages, message, index)
+                        ? "1px solid rgba(57, 56, 96, 0.7)"
+                        : "none")
+                  }`, */
                   borderRadius: "5px",
                   padding: "5px 15px",
                   maxWidth: "70%",

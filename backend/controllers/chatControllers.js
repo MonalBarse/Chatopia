@@ -1,6 +1,7 @@
 const expressAsyncHandler = require("express-async-handler");
 const Chat = require("../models/chatModel");
 const User = require("../models/userModel");
+const Message = require("../models/messageModel");
 
 
 // This route will be responsible for creating or accesing one on one chat
@@ -192,18 +193,29 @@ const removeFromGroup = expressAsyncHandler(async (req, res) => {
 
     try {
         // Find the chat by ID
-        const chat = await Chat.findById(chatID);
+        const group = await Chat.findById(chatID);
 
         // Check if the chat exists
-        if (!chat) {
+        if (!group) {
             res.status(404).send("Chat not found");
             return;
         }
 
-        // Check if the current user is the group admin
-        if (chat.groupAdmin.toString() !== req.user._id.toString()) {
-            res.status(403).send("You are not authorized to remove users from this chat");
-            return;
+        // Check if the user is the group admin
+        if (group.groupAdmin.equals(userID)) {
+            // If the user is the group admin, assign admin role to another user if there are other users left in the group
+            if (group.users.length > 1) {
+                // Find another user in the group (excluding the leaving admin)
+                const newAdminUser = group.users.find(user => !user.equals(userID));
+
+                // Update the chat with the new admin user
+                await Chat.findByIdAndUpdate(
+                    chatID,
+                    { $set: { groupAdmin: newAdminUser } },
+                    { new: true }
+                );
+                console.log("New admin assigned: ", newAdminUser);
+            }
         }
 
         // Update the chat by removing the user from the users array
@@ -213,6 +225,12 @@ const removeFromGroup = expressAsyncHandler(async (req, res) => {
             { new: true }
         ).populate("users", "-password").populate("groupAdmin", "-password");
 
+        if (removed.users.length === 0) {
+            await Message.deleteMany({ chat: chatID });
+            await Chat.findByIdAndDelete(chatID);
+            res.status(200).send("Group deleted");
+            return;
+        }
         res.send(removed); // Send the updated chat details
     } catch (error) {
         console.log(error);
