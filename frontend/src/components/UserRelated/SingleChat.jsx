@@ -9,12 +9,19 @@ import ProfileModal from "../Misc/ProfileModal";
 import { FormControl, Input, Spinner, Image, useToast } from "@chakra-ui/react";
 import inputSVG from "../../media/inputSVG.svg";
 import ScrollableChat from "./ScrollableChat";
-import {socket} from "../../socket/Websocket";
+import { socket } from "../../socket/Websocket";
 let selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const toast = useToast();
-  const { user, selectedChat, setSelectedChat } = ChatState();
+  const {
+    user,
+    selectedChat,
+    setSelectedChat,
+    notifications,
+    setNotifications
+  
+  } = ChatState();
   const [messages, setMessages] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [newMessages, setNewMessages] = React.useState(""); // We will take the input form the input field and store it here
@@ -28,20 +35,25 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     });
   }, []);
   //------------------xxxxxxxxx------------------//
-
+  
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
       if (
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageRecieved.chat._id
-      ) {
-        //give notif
-      } else {
-        setMessages([...messages, newMessageRecieved]);
-      }
+        ) {
+          //give notification
+          if(!notifications.includes(newMessageRecieved)){
+            setNotifications([...notifications, newMessageRecieved]);
+            setFetchAgain((prev) => !prev);
+          }
+        
+        } else {
+          setMessages([...messages, newMessageRecieved]);
+        }
+      });
     });
-  });
-
+    
   const fetchMessages = async () => {
     if (selectedChat) {
       try {
@@ -56,7 +68,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           `http://localhost:3000/api/message/${selectedChat._id}`,
           config
         );
-        console.log(data);
         setMessages(data);
         setLoading(false);
         socket.emit("joinRoom", selectedChat._id); // Join the room for the selected chat
@@ -79,7 +90,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessages) {
-      console.log(selectedChat);
       console.log("Sending message");
 
       try {
@@ -99,7 +109,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
         setNewMessages("");
         console.log("Message sent");
-        console.log(data);
         socket.emit("new message", data); // Emit the new message to the server
         // Append the new message to the messages array
         setMessages([...messages, data]);
@@ -207,7 +216,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             )}
             <FormControl onKeyDown={sendMessage} isRequired={true}>
               <Input
-                autocomplete="off"
+                autoComplete="off"
                 type="text"
                 placeholder={" Type a message "}
                 variant={"unstyled"}

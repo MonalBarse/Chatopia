@@ -99,6 +99,7 @@ function Signup() {
       <FormControl isRequired>
         <FormLabel>Name</FormLabel>
         <Input
+        autoComplete="off"
           style={{
             border: "1px solid rgba(102, 103, 119, 0.5)",
             borderRadius: "5px",

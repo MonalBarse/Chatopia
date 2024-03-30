@@ -25,7 +25,7 @@ const ProfileModal = React.memo(({ user, children }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <div>
+    <>
       {children ? (
         <span onClick={onOpen}>{children}</span>
       ) : (
@@ -159,7 +159,7 @@ const ProfileModal = React.memo(({ user, children }) => {
           </ModalBody>
         </ModalContent>
       </Modal>
-    </div>
+    </>
   );
 });
 

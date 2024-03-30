@@ -8,7 +8,7 @@ const ChatProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [selectedChat, setSelectedChat] = useState(null);
   const [chats, setChats] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,10 +25,11 @@ const ChatProvider = ({ children }) => {
         setUser,
         chats,
         setChats,
-        selectedUser,
-        setSelectedUser,
+        notifications,
+        setNotifications,
         selectedChat,
         setSelectedChat,
+
       }}
     >
       {children}
