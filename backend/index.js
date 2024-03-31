@@ -8,6 +8,7 @@ const chatRoutes = require('./routes/chatRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const colors = require('colors');
 const Chat = require('./models/chatModel');
+const path = require('path');
 const {
     notFound,
     errorHandler } = require('./middleware/errorHandeling');// Middlewars
@@ -26,6 +27,21 @@ app.use('/api/user', userRoutes);               // This is the route for the use
 app.use('/api/chat', chatRoutes);               // This is the route for the chat
 app.use('/api/message', messageRoutes);         // This is the route for the group chat
 
+// ----------------Deployment-------------------------- //
+
+const __dirname1 = path.resolve();
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname1, '/frontend/build')));
+    app.get('*', (req, res) => res.sendFile
+        (path.resolve(__dirname1, 'frontend', 'build', 'index.html')));
+} else {
+    app.get('/', (req, res) => {
+        res.send(`Api is running on port ${PORT}`)
+    });
+}
+
+
+// ------------------------------------------ //
 app.use(notFound);     // this is a middleware that will be called if no route is found
 
 // Schedule the purging process (e.g., every day)
@@ -45,7 +61,7 @@ setInterval(async () => {
         console.error('Error purging messages:', error);
     }
 }, every_day);
-
+// ------------------------------------------ //
 
 
 
@@ -89,7 +105,7 @@ io.on('connection', (socket) => {
 
         chat.users.forEach(user => {
             if (user._id === newMessageRecieved.sender._id) return;
-            socket.in(user._id).emit('message recieved', newMessageRecieved); 
+            socket.in(user._id).emit('message recieved', newMessageRecieved);
         }); // Emit the message to all users in the chat except the sender
         try {
             // Update the latestMessage property of the chat with the ID of the new message

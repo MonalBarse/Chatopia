@@ -25,7 +25,7 @@ const LogoutConfirmationModal = React.memo(({  user, children }) => {
   // ============================= //
   const { isOpen, onOpen, onClose } = useDisclosure();
   const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
+    localStorage.removeItem("userInfo");  // remove user info from local storage on logout
     navigate("/");
   };
 
