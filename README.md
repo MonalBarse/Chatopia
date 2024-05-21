@@ -58,10 +58,20 @@ Welcome to Chatopia – a project designed for me to learn the MERN stack (Mongo
 
    This will start the backend
 
+   (You might not have .env file in the root directory, so you can create one and add the following code)
+
+   ```bash
+       PORT = 3000
+       MONGO_URI=your_mongo_uri
+       JWT_SECRET=your_secret_key
+       NODE_ENV=production
+   ```
+
 4. **Open the Application:**
    Open [http://localhost:5713](http://localhost:5713) to view it in the browser.
 
-## Note: 
+## Note:
+
 - Register for an account by providing a username and password. Once registered, you can log in to access the chat rooms.
 - This is a begginer project, so you can chat with any person in the database by just entering their username in the chat room. Please do not use or share any sensitive information.
 - You can also create a new chat room by entering the name of the chat room in the chat room input field.

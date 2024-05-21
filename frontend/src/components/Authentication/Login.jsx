@@ -8,7 +8,6 @@ import {
   Input,
   useToast,
 } from "@chakra-ui/react";
-import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -29,7 +28,6 @@ function Login() {
     if (!email || !password) {
       toast({
         title: "Fill all the fields",
-        description: error.response.data.message,
         status: "warning",
         duration: 4000,
         isClosable: true,
@@ -49,7 +47,7 @@ function Login() {
           email,
           password,
         },
-        config
+        config,
       );
       toast({
         title: "Logg In Successful",

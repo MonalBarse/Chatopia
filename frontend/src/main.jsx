@@ -47,7 +47,6 @@ It takes the router instance as a prop, allowing components within its scope to 
 
 
 */
-import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
@@ -58,9 +57,11 @@ import Chatpage from "./pages/Chatpage.jsx";
 import ChatProvider from "./context/ChatProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Router> {/* Wrap all providers within Router */}
+  <Router>
+    {" "}
     <ChatProvider>
       <ChakraProvider>
+        {/* Wrap all providers within Router */}
         <Routes>
           <Route path="/" element={<App />}>
             <Route path="" element={<Homepage />} />
@@ -69,5 +70,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </Routes>
       </ChakraProvider>
     </ChatProvider>
-  </Router>
+  </Router>,
 );

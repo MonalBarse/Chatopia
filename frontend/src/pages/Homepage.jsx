@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 import {
   Container,
@@ -9,7 +8,6 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  useTab,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
