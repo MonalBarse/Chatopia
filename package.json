@@ -6,8 +6,7 @@
   "scripts": {
     "start": "nodemon backend/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm install && npm install --prefix frontend && npm run install-vite && npm run build --prefix frontend",
-    "install-vite": "cd frontend && npm install vite"
+    "build": "npm install && npm install --prefix frontend && (cd frontend && npx vite build)"
   },
   "author": "Monal",
   "license": "ISC",
