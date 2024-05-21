@@ -32,9 +32,9 @@ app.get('*', (req, res) =>
   res.sendFile(path.resolve(__dirname1, 'frontend', 'dist', 'index.html'))
 );
 // } else {
-//   app.get("/", (req, res) => {
-//     res.send(`Api is running on port ${PORT}`);
-//   });
+app.get('/', (req, res) => {
+  res.send(`Api is running on port ${PORT}`);
+});
 // }
 
 // ------------------------------------------ //

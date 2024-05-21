@@ -2,6 +2,8 @@
 
 ## - A real-time text chat platform
 
+You can check the live site [here](https://chatopia-f70q.onrender.com/)
+
 ## Overview
 
 Welcome to Chatopia – a project designed for me to learn the MERN stack (MongoDB, Express.js, React.js, Node.js). This application serves as a practical learning experience, allowing me to delve into the world of real-time chat applications while mastering the core technologies of the MERN stack.
