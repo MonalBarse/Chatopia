@@ -8,7 +8,7 @@ import UpdateGroupChatModal from "../Misc/UpdateGroupChatModal";
 import ProfileModal from "../Misc/ProfileModal";
 import { FormControl, Input, Spinner, useToast } from "@chakra-ui/react";
 import ScrollableChat from "./ScrollableChat";
-import { socket } from "../../socket/Websocket";
+
 import io from "socket.io-client";
 let socket, selectedChatCompare;
 
@@ -31,6 +31,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user); // Emit the user data to the server
+
     socket.on("connection", () => {
       setSocketConnected((prev) => !prev);
     });
@@ -39,7 +40,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
-      endpoint;
       if (
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageRecieved.chat._id
@@ -86,7 +86,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
   useEffect(() => {
     fetchMessages();
-    selectedChatCompare = selectedChat;
+    selectedChatCompare = selectedChat; // We did this to compare the selected chat with the new message recieved in the socket.on("message recieved") event.
   }, [selectedChat]);
 
   const sendMessage = async (event) => {
