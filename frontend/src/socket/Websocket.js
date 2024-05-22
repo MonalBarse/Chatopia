@@ -1,5 +1,4 @@
-import io from 'socket.io-client';
+import io from "socket.io-client";
 
-const ENDPOINT = 'http://localhost:3000';
+const ENDPOINT = "https://chatopia-f70q.onrender.com";
 export const socket = io(ENDPOINT);
-
