@@ -6,11 +6,11 @@ import getSender from "../../config/ChatLogics";
 import { getSenderFull } from "../../config/ChatLogics";
 import UpdateGroupChatModal from "../Misc/UpdateGroupChatModal";
 import ProfileModal from "../Misc/ProfileModal";
-import { FormControl, Input, Spinner, Image, useToast } from "@chakra-ui/react";
-import inputSVG from "../../media/inputSVG.svg";
+import { FormControl, Input, Spinner, useToast } from "@chakra-ui/react";
 import ScrollableChat from "./ScrollableChat";
 import { socket } from "../../socket/Websocket";
-let selectedChatCompare;
+import io from "socket.io-client";
+let socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const toast = useToast();
@@ -19,8 +19,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     selectedChat,
     setSelectedChat,
     notifications,
-    setNotifications
-  
+    setNotifications,
   } = ChatState();
   const [messages, setMessages] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -28,32 +27,34 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = React.useState(false);
 
   //------------------Socket.io------------------//
+  const ENDPOINT = "https://chatopia-f70q.onrender.com/";
   useEffect(() => {
+    socket = io(ENDPOINT);
     socket.emit("setup", user); // Emit the user data to the server
     socket.on("connection", () => {
       setSocketConnected((prev) => !prev);
     });
   }, []);
   //------------------xxxxxxxxx------------------//
-  
+
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
+      endpoint;
       if (
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageRecieved.chat._id
-        ) {
-          //give notification
-          if(!notifications.includes(newMessageRecieved)){
-            setNotifications([...notifications, newMessageRecieved]);
-            setFetchAgain((prev) => !prev);
-          }
-        
-        } else {
-          setMessages([...messages, newMessageRecieved]);
+      ) {
+        //give notification
+        if (!notifications.includes(newMessageRecieved)) {
+          setNotifications([...notifications, newMessageRecieved]);
+          setFetchAgain((prev) => !prev);
         }
-      });
+      } else {
+        setMessages([...messages, newMessageRecieved]);
+      }
     });
-    
+  });
+
   const fetchMessages = async () => {
     if (selectedChat) {
       try {
@@ -66,7 +67,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         };
         const { data } = await axios.get(
           `http://localhost:3000/api/message/${selectedChat._id}`,
-          config
+          config,
         );
         setMessages(data);
         setLoading(false);
@@ -105,7 +106,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             content: newMessages,
             chatID: selectedChat._id,
           },
-          config
+          config,
         );
         setNewMessages("");
         console.log("Message sent");
