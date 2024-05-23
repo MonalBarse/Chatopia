@@ -1,7 +1,6 @@
-import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useToast, Text, Box, Menu, Button, Stack } from "@chakra-ui/react";
+import { useToast, Text, Box, Button, Stack } from "@chakra-ui/react";
 import { ChatState } from "../../context/ChatProvider";
 import ChatLoading from "../Misc/ChatLoading";
 import getSender from "../../config/ChatLogics";
@@ -46,7 +45,7 @@ const MyChats = ({ fetchAgain }) => {
 
   /* useEffect(() => {
   // Connect to WebSocket server
-  const socket = socketIOClient("http://localhost:3000");
+  const socket = socketIOClient("url");
 
   // Listen for new message events
   socket.on("message received", (newMessage) => {
@@ -87,10 +86,7 @@ const MyChats = ({ fetchAgain }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(
-        "http://localhost:3000/api/chat",
-        config
-      );
+      const { data } = await axios.get("/api/chat", config);
       // console.log(`MyChats.jsx: ${{data}}` );
       console.log({ data });
       console.log(chats);

@@ -60,13 +60,13 @@ function Signup() {
         },
       };
       const { data } = await axios.post(
-        "http://localhost:3000/api/user/",
+        "/api/user/",
         {
           name,
           email,
           password,
         },
-        config
+        config,
       );
       toast({
         title: "Registration Successful",
@@ -99,7 +99,7 @@ function Signup() {
       <FormControl isRequired>
         <FormLabel>Name</FormLabel>
         <Input
-        autoComplete="off"
+          autoComplete="off"
           style={{
             border: "1px solid rgba(102, 103, 119, 0.5)",
             borderRadius: "5px",

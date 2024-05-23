@@ -5,21 +5,16 @@ import axios from "axios";
 import ChatLoading from "./ChatLoading";
 import { ChatState } from "../../context/ChatProvider";
 import {
-  Fade,
   Box,
   Button,
   Text,
-  Menu,
   Drawer,
   DrawerBody,
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  Toast,
-  DrawerCloseButton,
   useToast,
-  Spinner,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import UserListItem from "../UserRelated/UserListItem";
@@ -67,11 +62,7 @@ const LeftDrawer = React.memo(
             "Content-Type": "application/json",
           },
         };
-        const { data } = await axios.post(
-          "http://localhost:3000/api/chat",
-          { userID },
-          config
-        );
+        const { data } = await axios.post("/api/chat", { userID }, config);
         console.log({ data });
 
         if (data && data._id) {
@@ -123,10 +114,7 @@ const LeftDrawer = React.memo(
             "Content-Type": "application/json",
           },
         };
-        const { data } = await axios.get(
-          `http://localhost:3000/api/user?search=${search}`,
-          config
-        );
+        const { data } = await axios.get(`/api/user?search=${search}`, config);
         console.log(search);
         console.log(data);
         console.log(typeof data);
@@ -248,7 +236,7 @@ const LeftDrawer = React.memo(
         </Drawer>
       </div>
     );
-  }
+  },
 );
 
 export default LeftDrawer;

@@ -1,4 +1,3 @@
-import React from "react";
 import axios from "axios";
 import {
   Modal,
@@ -64,12 +63,12 @@ const GroupChatModal = ({ children }) => {
         },
       };
       const { data } = await axios.post(
-        "http://localhost:3000/api/chat/group",
+        "/api/chat/group",
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((user) => user._id)),
         },
-        config
+        config,
       );
       // console.log(data);
       setChats([data, ...chats]);
@@ -130,10 +129,7 @@ const GroupChatModal = ({ children }) => {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        const { data } = await axios.get(
-          `http://localhost:3000/api/user?search=${search}`,
-          config
-        );
+        const { data } = await axios.get(`/api/user?search=${search}`, config);
         console.log(data);
         setSearchResults(data);
         setLoading(false);
@@ -155,7 +151,7 @@ const GroupChatModal = ({ children }) => {
       return;
     }
   };
-  
+
   return (
     <>
       <span onClick={onOpen}>{children}</span>

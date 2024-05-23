@@ -25,7 +25,7 @@ import UserBadgeItem from "../UserRelated/UserBadgeItem";
 import { set } from "mongoose";
 import UserListItem from "../UserRelated/UserListItem";
 
-const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain , fetchMessages}) => {
+const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupName, setGroupName] = useState("");
@@ -58,9 +58,9 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain , fetchMessages}) => {
         },
       };
       const { data } = await axios.put(
-        `http://localhost:3000/api/chat/rename`,
+        `/api/chat/rename`,
         { chatID: selectedChat._id, newName: groupName },
-        config
+        config,
       );
       setSelectedChat(data);
       setFetchAgain((prev) => !prev);
@@ -88,7 +88,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain , fetchMessages}) => {
     }
     setGroupName("");
   };
-// ------------------------------ //
+  // ------------------------------ //
   const debounce = (func, delay) => {
     let timerId;
     return (...args) => {
@@ -101,14 +101,14 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain , fetchMessages}) => {
   const handleSearch = async (qurey) => {
     setSearch(qurey);
     if (qurey.trim() === "") {
-        toast({
-            title: "Please enter a valid search term",
-            status: "warning",
-            duration: 3000,
-            isClosable: true,
-            position: "top-left",
-        });
-        return;
+      toast({
+        title: "Please enter a valid search term",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top-left",
+      });
+      return;
     }
 
     try {
@@ -119,10 +119,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain , fetchMessages}) => {
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axios.get(
-        `http://localhost:3000/api/user?search=${search}`,
-        config
-      );
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
       console.log("Search result" + data);
       setSearchResults(data);
       setLoading(false);
@@ -139,9 +136,9 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain , fetchMessages}) => {
     }
   };
 
-    const debouncedSearch = debounce(handleSearch, 500);  
+  const debouncedSearch = debounce(handleSearch, 500);
 
-//   -------------------------------- //
+  //   -------------------------------- //
   const handleGroup = async (toAddUser) => {
     if (selectedChat.users.find((u) => u._id === toAddUser._id)) {
       toast({
@@ -175,12 +172,12 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain , fetchMessages}) => {
         },
       };
       const { data } = await axios.put(
-        `http://localhost:3000/api/chat/groupadd`,
+        `/api/chat/groupadd`,
         {
           chatID: selectedChat._id,
           userID: toAddUser._id,
         },
-        config
+        config,
       );
       setSelectedChat(data);
       setFetchAgain((prev) => !prev);
@@ -231,12 +228,12 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain , fetchMessages}) => {
         },
       };
       const { data } = await axios.put(
-        `http://localhost:3000/api/chat/groupremove`,
+        `/api/chat/groupremove`,
         {
           chatID: selectedChat._id,
           userID: toRemoveUser._id,
         },
-        config
+        config,
       );
 
       if (toRemoveUser._id === user._id) {
@@ -280,7 +277,6 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain , fetchMessages}) => {
       });
     }
   };
-
 
   return (
     <>
