@@ -1,6 +1,6 @@
 # Chatopia
 
-## - A real-time text chat platform
+##  A real-time text chat platform
 
 You can check the live site [here](https://chatopia-f70q.onrender.com/)
 
